@@ -5,7 +5,7 @@ import { Form, NavLink } from 'react-router-dom'
 import { TrashIcon } from '@heroicons/react/24/solid'
 
 //assets
-import logomark from '../assets/logomark.svg'
+import CMlogo from '../assets/CMlogo.png'
 
 
 const Nav = ({userName}) => {
@@ -16,7 +16,7 @@ const Nav = ({userName}) => {
         to="/" 
         aria-label="Go to home"
       > 
-        <img src={logomark} alt="" height={20} />
+        <img style={{width: '20%', height: '20%'}} src={CMlogo} alt={CMlogo} />
         <span>B-CLEVER</span>
       </NavLink> 
       {

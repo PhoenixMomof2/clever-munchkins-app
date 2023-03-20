@@ -9,7 +9,7 @@ import Intro from "../components/Intro"
 import AddBudgetForm from "../components/AddBudgetForm"
 
 // helper functions
-import { fetchData } from "../helpers"
+import { createBudget, fetchData, wait } from "../helpers"
 
 // loader
 export function dashboardLoader() {
@@ -20,6 +20,7 @@ export function dashboardLoader() {
 
 // action
 export async function dashboardAction({ request }) {
+  await wait()
   const data = await request.formData()
   const { _action, ...values } = Object.fromEntries(data)
   console.log(_action)
@@ -36,12 +37,13 @@ export async function dashboardAction({ request }) {
 
   if (_action === "createBudget") {
     try {
-      //create budget
-      // localStorage.setItem("budget", JSON.stringify(values.budget) )
-      throw new Error ("Fuk outta hear!")
+      createBudget({
+        name: values.newBudget,
+        amount: values.newBudgetAmount,
+      })
       return toast.success("Budget created!")
     } catch (e) {
-      throw new Error("There was a problem creating your budget.")
+      throw new Error ("Fuk outta hear!")
     } 
   }
 }
