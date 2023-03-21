@@ -63,9 +63,10 @@ export async function dashboardAction({ request }) {
       throw new Error ("Fuk outta hear!")
     }  
   }
+  
   if (_action === "deleteExpense") {
     try {
-      deleteExpense({
+      deleteItem({
         key: "expenses",
         id: values.expenseId,
       })
@@ -119,8 +120,7 @@ const Dashboard = () => {
                   <p>Let's start with earning an allowance to get started!</p>
                   <AddBudgetForm />
                 </div>
-              ) }
-              
+              )}              
           </div>
         </div>
       ) : (<Intro />)}

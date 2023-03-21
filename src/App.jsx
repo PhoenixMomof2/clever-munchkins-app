@@ -5,6 +5,7 @@ import Main, { mainLoader } from "./layouts/Main"
 
 //Actions
 import { logoutAction } from "./actions/logout"
+import { deleteBudget } from "./actions/deleteBudget"
 
 //Routes
 import Dashboard, { dashboardLoader, dashboardAction } from "./pages/Dashboard"
@@ -43,6 +44,12 @@ const router = createBrowserRouter([
         loader: expensesLoader,
         action: expensesAction,
         errorElement: <Error />,
+        children: [
+          { 
+            path: "delete",
+            action: deleteBudget,
+          }
+        ]
       },
       {
         path: "logout", 

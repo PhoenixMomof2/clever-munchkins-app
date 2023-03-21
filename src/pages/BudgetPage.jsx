@@ -1,6 +1,9 @@
 // rrd imports
 import { useLoaderData } from "react-router-dom"
 
+// library
+import { toast } from "react-toastify";
+
 // components
 import AddExpenseForm from "../components/AddExpenseForm"
 import BudgetItem from "../components/BudgetItem"
@@ -26,7 +29,7 @@ export async function budgetLoader({ params }){
 if(!budget){
   throw new Error("The budget you're trying to find doesn't exist.")
 }
-  return { budget }
+  return { budget, expenses }
 }
 
 // action
@@ -34,16 +37,29 @@ export async function budgetAction({ request }){
   const data = await request.formData();
   const { _action, ...values } = Object.fromEntries(data);
 
-  if (_action === "deleteItem") {
+  if (_action === "createExpense") {
+    try {
+      createExpense({
+        name: values.newExpense,
+        amount: values.newExpenseAmount,
+        budgetId: values.newExpenseBudget,
+      });
+      return toast.success(`Expense ${values.newExpense} created!`);
+    } catch (e) {
+      throw new Error("There was a problem creating your expense.");
+    }
+  }
+
+  if (_action === "deleteExpense") {
     try {
       deleteItem({
         key: "expenses",
         id: values.expenseId,
-      })
-      return toast.success("Expense deleted!")
+      });
+      return toast.success("Expense deleted!");
     } catch (e) {
-      throw new Error ("Fuk outta hear!")
-    }  
+      throw new Error("There was a problem deleting your expense.");
+    }
   }
 }
 const BudgetPage = () => {
@@ -57,14 +73,14 @@ const BudgetPage = () => {
         Overview
       </h1>
       <div className="flex-lg">
-        <BudgetItem budget={budget} />
+        <BudgetItem budget={budget} showDelete={true} />
         <AddExpenseForm budgets={[budget]} />
       </div>
       {
         expenses && expenses.length > 0 && (
           <div className="grid-md">
             <h2>
-              <span className="accent">{budget.name}</span>
+              <span className="accent">{budget.name} </span>
                 Expenses
             </h2>
             <Table expenses={expenses} showBudget={false} />
