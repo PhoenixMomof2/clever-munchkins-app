@@ -18,6 +18,7 @@ const AddBudgetForm = () => {
       focusRef.current.focus()
     }
   }, [isSubmitting])
+  
   return (
     <div className="form-wrapper">
       <h2 className="h3">
@@ -53,8 +54,10 @@ const AddBudgetForm = () => {
         </div>
         <input type="hidden" name="_action" value="createBudget" />
         <button type="submit" className="btn btn--dark" disabled={isSubmitting}>
-          <span>Create Budget</span>
+          { isSubmitting ? <span>Submitting...</span> : (<>
+            <span>Create Budget</span>
           <CurrencyDollarIcon width={20} />
+          </>) }
         </button>
       </fetcher.Form>
     </div>
